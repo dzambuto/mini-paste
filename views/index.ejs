@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include head %>
+  <body>
+    
+    <% include navbar %>
+    
+    <div class="container">
+      
+      <div class="alert alert-info">
+        <p>You are currently not logged in, this means you can not edit or delete anything you paste. <a href="" class="alert-link">Sign Up</a> or <a href="" class="alert-link">Login</a></p>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><i class="fa fa-tag"></i> New Paste</div>
+        <div class="panel-body">
+          <form role="form" method="post" action="/new">
+            <div class="form-group">
+              <label for="content">Paste somenthing...</label>
+              <textarea class="form-control" name="content" rows="10" required><%= content %></textarea>
+            </div>
+            <div class="form-group">
+              <label for="title">Paste Name/Title:</label>
+              <input type="text" class="form-control" name="title" required/>
+            </div>
+            <div class="form-group">
+              <label for="expiration">Expiration: </label>
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="expiration" id="options1" value="0" checked>
+                  10 minutes
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="expiration" id="options2" value="1">
+                  1 hour
+                </label>
+              </div>
+            </div>
+        
+            <div class="form-group">
+              <label for="exposure">Exposure: </label>
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="exposure" id="eoptions1" value="public" checked>
+                  Public
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="exposure" id="eoptions2" value="unlisted">
+                  Unlisted
+                </label>
+              </div>
+            </div>
+        
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>
+      $("form").validate();
+    </script>
+  </body>
+</html>

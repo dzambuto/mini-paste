@@ -1,0 +1,25 @@
+{
+  "name": "mini-paste",
+  "version": "0.1.0",
+  "description": "A pastebin.com clone.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "paste",
+    "pastebin",
+    "clone",
+    "mongodb",
+    "express"
+  ],
+  "author": "Daniele Zambuto",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^1.0.0",
+    "mongoose": "^3.8.8",
+    "connect-mongo": "^0.4.0",
+    "express": "^3.5.1",
+    "hashids": "^0.3.3"
+  }
+}
