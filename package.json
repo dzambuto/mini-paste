@@ -17,9 +17,10 @@
   "license": "MIT",
   "dependencies": {
     "ejs": "^1.0.0",
-    "mongoose": "^3.8.8",
-    "connect-mongo": "^0.4.0",
     "express": "^3.5.1",
-    "hashids": "^0.3.3"
+    "hashids": "^0.3.3",
+    "passport": "^0.2.0",
+    "sequelize": "^1.7.0",
+    "mysql": "^2.1.1"
   }
 }

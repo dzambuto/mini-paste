@@ -2,19 +2,13 @@
  * Module dependencies.
  */
 var express = require('express')
-  , mongoose = require('mongoose')
-  , MongoStore = require('connect-mongo')(express)
+  , passport = require('passport')
   , path = require('path')
-  , dbPath = 'mongodb://localhost/mini-paste';
+  , db = require('./models');
 
 /**
  * Configurations
  */
-  
-// Bootstrap db connection
-var db = mongoose.connect(dbPath);
-// Bootstrap mongoose model
-require(path.join(__dirname, 'models/paste'));
 
 // Create express app
 var app = express();
@@ -28,10 +22,6 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
-  store: new MongoStore({
-    url: dbPath,
-    collection: 'sessions'
-  }),
   secret: 'minipaste2014',
   cookie: { maxAge: 30*60*10000 }
 }));
@@ -70,12 +60,15 @@ app.get('/recent', paste.list, views.list);
 app.get('/paste/:pasteId', paste.hits, views.show);
 app.param('pasteId', paste.retrieve);
 
-// API routes
-
-//Start the app by listening on <port>
-app.listen(app.get('port'), function () {
-  console.log('Express app started on port ' + app.get('port'));
-});
+db
+  .sequelize
+  .sync({ force: true })
+  .complete(function(err) {
+    //Start the app by listening on <port>
+    app.listen(app.get('port'), function () {
+      console.log('Express app started on port ' + app.get('port'));
+    });
+  });
 
 //expose app
 exports = module.exports = app;
