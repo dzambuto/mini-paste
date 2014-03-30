@@ -68,8 +68,6 @@ exports.list = function (req, res, next) {
     })
     .success(function (pastes) {
       pastes.forEach(function (paste) {
-        console.log(paste.createdAt)
-        console.log(paste.expiredAt)
         paste.hid = hashids.encrypt(paste.id);
       });
       req.pastes = pastes;
