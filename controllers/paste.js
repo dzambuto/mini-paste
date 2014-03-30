@@ -13,7 +13,7 @@ exports.create = function (req, res, next) {
     , now = Date.now();
   
   // Expire Date
-  paste.expiredAt = body.expiration ? now + 1000*60*60 : now + 1000*60*10;
+  paste.expiredAt = body.expiration == 1 ? now + 1000*60*60 : now + 1000*60*10;
   
   paste.save().success(function () {
     paste.hid = hashids.encrypt(paste.id);
@@ -31,6 +31,31 @@ exports.create = function (req, res, next) {
   });
 };
 
+exports.update = function (req, res, next) {
+  var paste = req.paste
+    , attrs = req.body
+    , now = Date.now();
+  
+  // Expire Date
+  paste.expiredAt = attrs.expiration == 1 ? now + 1000*60*60 : now + 1000*60*10;
+      
+  paste
+    .updateAttributes(attrs)
+    .success(function () {
+      next();
+    });
+};
+
+exports.remove = function (req, res, next) {
+  var paste = req.paste;
+  
+  paste
+    .destroy()
+    .success(function () {
+      next();
+    });
+};
+
 exports.list = function (req, res, next) {
   var now = new Date();
   
@@ -43,6 +68,8 @@ exports.list = function (req, res, next) {
     })
     .success(function (pastes) {
       pastes.forEach(function (paste) {
+        console.log(paste.createdAt)
+        console.log(paste.expiredAt)
         paste.hid = hashids.encrypt(paste.id);
       });
       req.pastes = pastes;
@@ -95,9 +122,30 @@ exports.user = function (req, res, next) {
 };
 
 exports.fork = function (req, res, next) {
-  var hid = req.query.id;
-  if(!hid) return next();
-  retrieve(req, res, next, hid);
+  var id = req.query.id && hashids.decrypt(req.query.id)
+    , clone = req.paste = { content: '', title: '', exposure: 'public' }
+    , now = new Date();
+  
+  if(!id) return next();
+  
+  Paste
+    .find({ 
+      where: {id: id, expiredAt: { gt: now } }
+      , include: [{ model: User }]
+    })
+    .success(function (paste) {
+      if(!paste) {
+        var err = new Error('Not found');
+        err.status = 404;
+        return next(err);
+      }
+      clone.content = paste.content;
+      clone.title = paste.title;
+      next();
+    })
+    .error(function (err, paste) {
+      next(err);
+    });
 };
 
 exports.hits = function (req, res, next) {

@@ -1,7 +1,12 @@
 
 exports.index = function (req, res) {
-  var content = req.paste ? req.paste.content : '';
-  res.render('index', { page: 'new', content: content });
+  var paste = req.paste;
+  res.render('index', { page: 'new', paste: paste });
+};
+
+exports.edit = function (req, res) {
+  var paste = req.paste;
+  res.render('paste/edit', { page: 'edit', paste: paste });
 };
 
 exports.show = function (req, res) {

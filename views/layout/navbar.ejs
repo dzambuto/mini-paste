@@ -18,6 +18,11 @@
           <li class="<%= page == 'my' ? 'active' : ''  %>"><a href="/paste">My Pastes</a></li>
         <% } %> 
       </ul>
+      <% if(user) { %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/signout">Logout</a></li>
+        </ul>
+      <% } %> 
     </div><!--/.nav-collapse -->
   </div>
 </div>

@@ -74,11 +74,15 @@ app.post('/users/session', passport.authenticate('local', {
     failureFlash: true
 }), auth.session);
 
+// Paste routes
+app.post('/new', paste.create, views.redirect);
+app.post('/paste/:pasteId', auth.havePermission, paste.update, views.redirect);
+
 // Site routes
 app.get('/', auth.user, paste.fork, views.index);  
-app.post('/new', auth.user, paste.create, views.redirect);
 app.get('/recent', auth.user, paste.list, views.list);
 app.get('/paste/:pasteId', auth.user, paste.hits, views.show);
+app.get('/paste/:pasteId/edit', auth.requiresLogin, auth.havePermission, auth.user, views.edit);
 app.get('/paste', auth.requiresLogin, auth.user, paste.user, views.my);
 app.param('pasteId', paste.retrieve);
 

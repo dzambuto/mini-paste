@@ -13,6 +13,17 @@ exports.requiresLogin = function(req, res, next) {
   next();
 };
 
+exports.havePermission = function (req, res, next) {
+  var user = req.user
+    , paste = req.paste;
+  
+  if(!user || user.id != paste.UserId) {
+    return res.send(401, 'User is not authorized');
+  }
+  
+  next();
+};
+
 exports.signout = function(req, res) {
   req.logout();
   res.redirect('/');

@@ -23,7 +23,7 @@
             <td><i class="fa fa-tag"></i> <a href="/paste/<%= pastes[i].hid %>"> <%= pastes[i].title %> </a></td>
             <td><%= pastes[i].createdAt.getDate() %>/<%= pastes[i].createdAt.getMonth()+1 %>/<%= pastes[i].createdAt.getFullYear() %></td>
             <td><%= pastes[i].hits %></td>
-            <td><a href="/paste/<%= pastes[i].hid %>/edit">Edit</a>, <a href="/paste/<%= pastes[i].hid %>/edit">Remove</a></td>
+            <td><a href="/paste/<%= pastes[i].hid %>/edit" class="btn btn-default" role="button"><i class="fa fa-edit"></i> Edit</a></td>
           </tr>
         <% } %>
         </tbody>

@@ -12,6 +12,9 @@
       <p>
         <button type="button" class="btn btn-default" id="copy" data-clipboard-target="contentToCopy"><i class="fa fa-files-o"></i> Copy</button>
         <a class="btn btn-default" href="/?id=<%= paste.hid %>" role="button"><i class="fa fa-code-fork"></i> New Version</a>
+        <% if(user && user.id == paste.UserId) { %>
+          <a href="/paste/<%= paste.hid %>/edit" class="btn btn-default" role="button"><i class="fa fa-edit"></i> Edit</a>
+        <% } %>
       </p>
       <p><pre><code id="contentToCopy"><%= paste.content %></code></pre></p>
       

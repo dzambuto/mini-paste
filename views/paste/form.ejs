@@ -1,11 +1,11 @@
-<form role="form" method="post" action="/new">
+<form role="form" method="post" action="<%= paste && paste.hid ? '/paste/' + paste.hid : '/new' %>">
   <div class="form-group">
     <label for="content">Paste somenthing...</label>
-    <textarea class="form-control" name="content" rows="10" required><%= content %></textarea>
+    <textarea class="form-control" name="content" rows="10" required><%= paste ? paste.content : '' %></textarea>
   </div>
   <div class="form-group">
     <label for="title">Paste Name/Title:</label>
-    <input type="text" class="form-control" name="title" required/>
+    <input type="text" class="form-control" name="title" value="<%= paste ? paste.title : '' %>" required/>
   </div>
   <div class="form-group">
     <label for="expiration">Expiration: </label>
@@ -27,13 +27,13 @@
     <label for="exposure">Exposure: </label>
     <div class="radio-inline">
       <label>
-        <input type="radio" name="exposure" id="eoptions1" value="public" checked>
+        <input type="radio" name="exposure" id="eoptions1" value="public" <%= paste && paste.exposure == 'public' ? 'checked' : '' %>>
         Public
       </label>
     </div>
     <div class="radio-inline">
       <label>
-        <input type="radio" name="exposure" id="eoptions2" value="unlisted">
+        <input type="radio" name="exposure" id="eoptions2" value="unlisted" <%= paste && paste.exposure == 'unlisted' ? 'checked' : '' %>>
         Unlisted
       </label>
     </div>
