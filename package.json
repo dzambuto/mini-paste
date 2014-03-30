@@ -21,6 +21,8 @@
     "hashids": "^0.3.3",
     "passport": "^0.2.0",
     "sequelize": "^1.7.0",
-    "mysql": "^2.1.1"
+    "mysql": "^2.1.1",
+    "passport-local": "^1.0.0",
+    "connect-flash": "^0.1.1"
   }
 }

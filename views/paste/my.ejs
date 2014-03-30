@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../layout/head %>
+  <body>
+    
+    <% include ../layout/navbar %>
+    
+    <div class="container">
+      <h2>My Pastes</h2>
+      <p>This page contains all your pastes.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name/Title</th>
+            <th>Added</th>
+            <th>Hits</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% for(var i = 0; i < pastes.length; i++) { %>
+          <tr>
+            <td><i class="fa fa-tag"></i> <a href="/paste/<%= pastes[i].hid %>"> <%= pastes[i].title %> </a></td>
+            <td><%= pastes[i].createdAt.getDate() %>/<%= pastes[i].createdAt.getMonth()+1 %>/<%= pastes[i].createdAt.getFullYear() %></td>
+            <td><%= pastes[i].hits %></td>
+            <td><a href="/paste/<%= pastes[i].hid %>/edit">Edit</a>, <a href="/paste/<%= pastes[i].hid %>/edit">Remove</a></td>
+          </tr>
+        <% } %>
+        </tbody>
+      </table>
+      
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

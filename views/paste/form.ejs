@@ -1,0 +1,43 @@
+<form role="form" method="post" action="/new">
+  <div class="form-group">
+    <label for="content">Paste somenthing...</label>
+    <textarea class="form-control" name="content" rows="10" required><%= content %></textarea>
+  </div>
+  <div class="form-group">
+    <label for="title">Paste Name/Title:</label>
+    <input type="text" class="form-control" name="title" required/>
+  </div>
+  <div class="form-group">
+    <label for="expiration">Expiration: </label>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="expiration" id="options1" value="0" checked>
+        10 minutes
+      </label>
+    </div>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="expiration" id="options2" value="1">
+        1 hour
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="exposure">Exposure: </label>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="exposure" id="eoptions1" value="public" checked>
+        Public
+      </label>
+    </div>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="exposure" id="eoptions2" value="unlisted">
+        Unlisted
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>

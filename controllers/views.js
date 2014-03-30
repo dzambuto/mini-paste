@@ -6,12 +6,17 @@ exports.index = function (req, res) {
 
 exports.show = function (req, res) {
   var paste = req.paste;
-  res.render('paste', { paste: paste, page: 'paste' });
+  res.render('paste/show', { paste: paste, page: 'paste' });
 };
 
 exports.list = function (req, res) {
   var pastes = req.pastes;
-  res.render('recent', { pastes: pastes, page: 'recent' });
+  res.render('paste/recent', { pastes: pastes, page: 'recent' });
+};
+
+exports.my = function (req, res) {
+  var pastes = req.pastes;
+  res.render('paste/my', { pastes: pastes, page: 'my' });
 };
 
 exports.redirect = function (req, res) {

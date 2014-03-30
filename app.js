@@ -3,12 +3,15 @@
  */
 var express = require('express')
   , passport = require('passport')
+  , flash = require('connect-flash')
   , path = require('path')
   , db = require('./models');
 
 /**
  * Configurations
  */
+// Bootstrap passport config
+require('./config/passport')(passport);
 
 // Create express app
 var app = express();
@@ -25,6 +28,9 @@ app.use(express.session({
   secret: 'minipaste2014',
   cookie: { maxAge: 30*60*10000 }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -51,13 +57,29 @@ app.use(function (req, res, next) {
  * Routes
  */
 var paste = require('./controllers/paste')
-  , views = require('./controllers/views');
+  , views = require('./controllers/views')
+  , auth = require('./controllers/auth')
+  , users = require('./controllers/users');
+  
+// Auth routes
+app.get('/signin', auth.user, auth.signin);
+app.get('/signup', auth.user, auth.signup);
+app.get('/signout', auth.user, auth.signout);
+
+// User route
+app.post('/users', users.create, auth.login);
+app.param('userId', users.retrieve);
+app.post('/users/session', passport.authenticate('local', {
+    failureRedirect: '/signin',
+    failureFlash: true
+}), auth.session);
 
 // Site routes
-app.get('/', paste.fork, views.index);  
-app.post('/new', paste.create, views.redirect);
-app.get('/recent', paste.list, views.list);
-app.get('/paste/:pasteId', paste.hits, views.show);
+app.get('/', auth.user, paste.fork, views.index);  
+app.post('/new', auth.user, paste.create, views.redirect);
+app.get('/recent', auth.user, paste.list, views.list);
+app.get('/paste/:pasteId', auth.user, paste.hits, views.show);
+app.get('/paste', auth.requiresLogin, auth.user, paste.user, views.my);
 app.param('pasteId', paste.retrieve);
 
 db

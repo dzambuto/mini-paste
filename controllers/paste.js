@@ -1,12 +1,14 @@
 
 var db = require('../models')
   , Paste = db.Paste
+  , User = db.User
   , Hashids = require("hashids")
   , hashids = new Hashids("mini-paste-clone");
 
 
 exports.create = function (req, res, next) {
   var body = req.body
+    , user = req.user
     , paste = Paste.build(body)
     , now = Date.now();
   
@@ -16,7 +18,14 @@ exports.create = function (req, res, next) {
   paste.save().success(function () {
     paste.hid = hashids.encrypt(paste.id);
     req.paste = paste;
-    next();
+    
+    if(!user) return next();
+    
+    user
+      .addPaste(paste)
+      .success(function () {
+        next();
+      });
   }).error(function (err) {
     next(err);
   });
@@ -30,6 +39,7 @@ exports.list = function (req, res, next) {
         where: {exposure: 'public', expiredAt: { gt: now }}
       , order: [['hits', 'DESC'], ['createdAt', 'DESC']]
       , limit: 10
+      , include: [{ model: User }]
     })
     .success(function (pastes) {
       pastes.forEach(function (paste) {
@@ -49,7 +59,8 @@ var retrieve = exports.retrieve = function (req, res, next, hid) {
   
   Paste
     .find({ 
-      where: {id: id, expiredAt: { gt: now }}
+      where: {id: id, expiredAt: { gt: now } }
+      , include: [{ model: User }]
     })
     .success(function (paste) {
       if(!paste) {
@@ -62,6 +73,23 @@ var retrieve = exports.retrieve = function (req, res, next, hid) {
       next();
     })
     .error(function (err, paste) {
+      next(err);
+    });
+};
+
+exports.user = function (req, res, next) {  
+  var user = req.user;
+  
+  user
+    .getPastes()
+    .success(function (pastes) {
+      pastes.forEach(function (paste) {
+        paste.hid = hashids.encrypt(paste.id);
+      });
+      req.pastes = pastes;
+      next();
+    })
+    .error(function (err) {
       next(err);
     });
 };

@@ -1,61 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include head %>
+  <% include layout/head %>
   <body>
     
-    <% include navbar %>
+    <% include layout/navbar %>
     
     <div class="container">
       
+      <% if (!user) { %>
       <div class="alert alert-info">
-        <p>You are currently not logged in, this means you can not edit or delete anything you paste. <a href="" class="alert-link">Sign Up</a> or <a href="" class="alert-link">Login</a></p>
+        <p>You are currently not logged in, this means you can not edit or delete anything you paste. <a href="/signup" class="alert-link">Sign Up</a> or <a href="" class="alert-link">Login</a></p>
       </div>
+      <% } else { %>
+        <div class="alert alert-info">
+          <p>Welcome <strong><%= user.username %></strong>.</a></p>
+        </div>
+      <% } %>
       <div class="panel panel-default">
         <div class="panel-heading"><i class="fa fa-tag"></i> New Paste</div>
         <div class="panel-body">
-          <form role="form" method="post" action="/new">
-            <div class="form-group">
-              <label for="content">Paste somenthing...</label>
-              <textarea class="form-control" name="content" rows="10" required><%= content %></textarea>
-            </div>
-            <div class="form-group">
-              <label for="title">Paste Name/Title:</label>
-              <input type="text" class="form-control" name="title" required/>
-            </div>
-            <div class="form-group">
-              <label for="expiration">Expiration: </label>
-              <div class="radio-inline">
-                <label>
-                  <input type="radio" name="expiration" id="options1" value="0" checked>
-                  10 minutes
-                </label>
-              </div>
-              <div class="radio-inline">
-                <label>
-                  <input type="radio" name="expiration" id="options2" value="1">
-                  1 hour
-                </label>
-              </div>
-            </div>
-        
-            <div class="form-group">
-              <label for="exposure">Exposure: </label>
-              <div class="radio-inline">
-                <label>
-                  <input type="radio" name="exposure" id="eoptions1" value="public" checked>
-                  Public
-                </label>
-              </div>
-              <div class="radio-inline">
-                <label>
-                  <input type="radio" name="exposure" id="eoptions2" value="unlisted">
-                  Unlisted
-                </label>
-              </div>
-            </div>
-        
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
+          <% include paste/form %>
         </div>
       </div>
       

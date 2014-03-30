@@ -11,17 +11,12 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <% if(page == 'new') {%>
-          <li class="active"><a href="/">New Paste</a></li>
-        <% } else {%>
-          <li><a href="/">New Paste</a></li>
-        <% } %>
+        <li class="<%= page == 'new' ? 'active' : ''  %>"><a href="/">New Paste</a></li>
+        <li class="<%= page == 'recent' ? 'active' : ''  %>"><a href="/recent">Recent Pastes</a></li>
         
-        <% if(page == 'recent') {%>
-          <li class="active"><a href="/recent">Recent Pastes</a></li>
-        <% } else {%>
-          <li><a href="/recent">Recent Pastes</a></li>
-        <% } %>
+        <% if(user) { %>
+          <li class="<%= page == 'my' ? 'active' : ''  %>"><a href="/paste">My Pastes</a></li>
+        <% } %> 
       </ul>
     </div><!--/.nav-collapse -->
   </div>

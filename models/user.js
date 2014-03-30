@@ -2,11 +2,22 @@ var crypto = require('crypto');
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
-    username: { type: DataTypes.STRING, unique: true, required: true, validate: { notEmpty: true, isAlphanumeric: true, isLowecase: true } },
+    username: { type: DataTypes.STRING, unique: true, required: true, validate: { notEmpty: true, isAlphanumeric: true } },
     email: { type: DataTypes.STRING, unique: true, required: true, validate: { notEmpty: true, isEmail: true } },
     hashed_password: DataTypes.STRING,
     salt: DataTypes.STRING
   }, {
+    getterMethods: {
+      password:  function() {
+        return this.hashed_password;
+      }
+    },
+    setterMethods: {
+      password: function(password) {
+        this.salt = this.makeSalt();
+        this.hashed_password = this.encryptPassword(password);
+      }
+    },
     classMethods: {
       associate: function(models) {
         User.hasMany(models.Paste);

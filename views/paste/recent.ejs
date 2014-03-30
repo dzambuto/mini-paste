@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include head %>
+  <% include ../layout/head %>
   <body>
     
-    <% include navbar %>
+    <% include ../layout/navbar %>
     
     <div class="container">
       <h2>Recent Pastes</h2>
@@ -23,7 +23,7 @@
             <td><i class="fa fa-tag"></i> <a href="/paste/<%= pastes[i].hid %>"> <%= pastes[i].title %> </a></td>
             <td><%= pastes[i].createdAt.getDate() %>/<%= pastes[i].createdAt.getMonth()+1 %>/<%= pastes[i].createdAt.getFullYear() %></td>
             <td><%= pastes[i].hits %></td>
-            <td>Guest</td>
+            <td><%= pastes[i].user ? pastes[i].user.username : 'Guest' %></td>
           </tr>
         <% } %>
         </tbody>
