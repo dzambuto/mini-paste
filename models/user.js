@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
         return crypto.createHash('sha512').update(password).update(this.salt).digest('base64');
       },
       makeSalt: function() {
-        return crypto.randomBytes(16);
+        return crypto.randomBytes(16).toString('base64');
       }
     }
   });
