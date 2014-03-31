@@ -43,7 +43,6 @@ exports.signin = function(req, res) {
 exports.signup = function(req, res) {
   res.render('auth/signup', {
       page: 'signup'
-    , user: User.build({})
     , message: req.flash('error')
   });
 };
