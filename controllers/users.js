@@ -11,7 +11,13 @@ exports.create = function (req, res, next) {
       next();
     })
     .error(function (err) {
-      next(err);
+      if(err.code && err.code == 'ER_DUP_ENTRY') {
+        req.flash('error', 'Username already taken');
+      }
+      else {
+        req.flash('error', 'Unknown error');
+      } 
+      res.redirect('/signup');
     });
 };
 

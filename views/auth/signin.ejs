@@ -6,9 +6,13 @@
     <% include ../layout/navbar %>
     <div class="container">
       <div class="col-md-offset-3 col-md-6">
+        
         <div class="panel panel-default">
           <div class="panel-heading"><i class="fa fa-user"></i> Signup</div>
           <div class="panel-body">
+            
+            <% include errors %>
+            
             <form role="form" action="/users/session" method="post" autocomplete="off">
               <div class="form-group">
                 <label for="username">Username</label>
