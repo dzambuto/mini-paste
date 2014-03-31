@@ -60,11 +60,6 @@ var paste = require('./controllers/paste')
   , views = require('./controllers/views')
   , auth = require('./controllers/auth')
   , users = require('./controllers/users');
-  
-// Auth routes
-app.get('/signin', auth.user, auth.signin);
-app.get('/signup', auth.user, auth.signup);
-app.get('/signout', auth.user, auth.signout);
 
 // User route
 app.post('/users', users.create, auth.login);
@@ -77,6 +72,11 @@ app.post('/users/session', passport.authenticate('local', {
 // Paste routes
 app.post('/new', paste.create, views.redirect);
 app.post('/paste/:pasteId', auth.havePermission, paste.update, views.redirect);
+
+// Auth routes
+app.get('/signin', auth.user, auth.signin);
+app.get('/signup', auth.user, auth.signup);
+app.get('/signout', auth.user, auth.signout);
 
 // Site routes
 app.get('/', auth.user, paste.fork, views.index);  
