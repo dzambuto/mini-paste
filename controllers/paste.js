@@ -79,12 +79,11 @@ exports.list = function (req, res, next) {
 };
 
 var retrieve = exports.retrieve = function (req, res, next, hid) {
-  var id = hashids.decrypt(hid)
-    , now = new Date();
+  var id = hashids.decrypt(hid);
   
   Paste
     .find({ 
-      where: {id: id, expiredAt: { gt: now } }
+      where: { id: id }
       , include: [{ model: User }]
     })
     .success(function (paste) {
@@ -100,6 +99,18 @@ var retrieve = exports.retrieve = function (req, res, next, hid) {
     .error(function (err, paste) {
       next(err);
     });
+};
+
+exports.expired = function (req, res, next) {
+  var paste = req.paste
+  , now = new Date();
+  
+  if(now.getTime() > paste.expiredAt.getTime()) {
+    req.flash('error', 'Paste expired');
+    return res.redirect('/recent');
+  }
+  
+  next();
 };
 
 exports.user = function (req, res, next) {  

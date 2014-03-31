@@ -16,7 +16,7 @@ exports.show = function (req, res) {
 
 exports.list = function (req, res) {
   var pastes = req.pastes;
-  res.render('paste/recent', { pastes: pastes, page: 'recent' });
+  res.render('paste/recent', { pastes: pastes, page: 'recent', message: req.flash('error') });
 };
 
 exports.my = function (req, res) {

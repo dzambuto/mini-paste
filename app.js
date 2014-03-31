@@ -81,7 +81,7 @@ app.get('/signout', auth.user, auth.signout);
 // Site routes
 app.get('/', auth.user, paste.fork, views.index);  
 app.get('/recent', auth.user, paste.list, views.list);
-app.get('/paste/:pasteId', auth.user, paste.hits, views.show);
+app.get('/paste/:pasteId', auth.user, paste.expired, paste.hits, views.show);
 app.get('/paste/:pasteId/edit', auth.requiresLogin, auth.havePermission, auth.user, views.edit);
 app.get('/paste', auth.requiresLogin, auth.user, paste.user, views.my);
 app.param('pasteId', paste.retrieve);

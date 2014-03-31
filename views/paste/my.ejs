@@ -14,7 +14,8 @@
             <th>Name/Title</th>
             <th>Added</th>
             <th>Hits</th>
-            <th>Actions</th>
+            <th>Exposure</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -23,7 +24,13 @@
             <td><i class="fa fa-tag"></i> <a href="/paste/<%= pastes[i].hid %>"> <%= pastes[i].title %> </a></td>
             <td><%= pastes[i].createdAt.getDate() %>/<%= pastes[i].createdAt.getMonth()+1 %>/<%= pastes[i].createdAt.getFullYear() %></td>
             <td><%= pastes[i].hits %></td>
-            <td><a href="/paste/<%= pastes[i].hid %>/edit" class="btn btn-default" role="button"><i class="fa fa-edit"></i> Edit</a></td>
+            <td><%= pastes[i].exposure %></td>
+            <td>
+              <form class="form" method="delete" action="/paste/<%= pastes[i].hid %>">
+                <a href="/paste/<%= pastes[i].hid %>/edit" class="btn btn-xs btn-default" role="button"><i class="fa fa-edit"></i> Edit</a>
+                <button class="btn btn-xs btn-default" type="submit"><i class="fa fa-trash-o"></i> Remove</button>
+              </form>
+            </td>
           </tr>
         <% } %>
         </tbody>
